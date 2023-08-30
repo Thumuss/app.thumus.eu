@@ -1,0 +1,17 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "default description",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=production node ."
+  },
+  "dependencies": {
+    "foo": "bar"
+  },
+  "type": "module",
+  "repository": {
+    "url": "https://github.com/thumuslive/app.thumus.eu"
+  },
+  "author": "Thumus"
+}

@@ -1,4 +1,4 @@
-type menuFunction = () => void;
+type menuFunction = (() => void) | (() => Promise<void>);
 class Menu {
   functions: menuFunction[];
   text: string;
@@ -12,8 +12,8 @@ class Menu {
     return this;
   }
 
-  play(i: number): void {
-    this.functions[i]();
+  async play(i: number): Promise<void> {
+    await this.functions[i]();
   }
 }
 

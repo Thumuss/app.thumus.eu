@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 //import fs from "fs/promises";
 //import cp from "child_process";
-
-import Menu from "./menu.js";
+import TUI from "./TUI.js"
+import Menu from "./utils/menu.js";
 //import env from "./utils/env";
 import {
   messageCodes,
@@ -10,7 +11,7 @@ import {
   messagePrincipale,
   messageTokens,
 } from "./text/fr.js";
-import { listDomain } from "./domain.js";
+import { addDomain, listDomain } from "./domain.js";
 import input from "./utils/input.js";
 
 const history: number[] = [0];
@@ -25,7 +26,7 @@ const menus = [
     .addFun(() => history.shift()),
   new Menu(messageDomaines)
     .addFun(() => listDomain())
-    /*.addFun(() => addDomain())
+    .addFun(() => addDomain())/*
     .addFun(() => editDomain())
     .addFun(() => deleteDomain())
     .addFun(() => chooseDomain())
@@ -37,10 +38,13 @@ const menus = [
   new Menu(messageConfiguration),
 ];
 
+/*
 while (history.length !== 0) {
   const menuNumber = history[0];
   const menu = menus[menuNumber];
   const id = parseInt(await input(menu.text));
   if (isNaN(id)) continue;
-  menu.play(id - 1);
-}
+  await menu.play(id - 1);
+}*/
+
+TUI()

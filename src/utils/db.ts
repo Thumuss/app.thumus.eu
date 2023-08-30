@@ -15,7 +15,7 @@ interface Ssh {
 
 interface Domaines {
     url: string
-    token: string,
+    token?: string,
     ssh: Ssh
 }
 
