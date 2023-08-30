@@ -1,10 +1,8 @@
 type menuFunction = () => void;
 class Menu {
-  name: string;
   functions: menuFunction[];
   text: string;
-  constructor(name: string, text: string) {
-    this.name = name;
+  constructor(text: string) {
     this.functions = [];
     this.text = text;
   }

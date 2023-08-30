@@ -1,4 +1,3 @@
-import readline from "readline/promises";
 //import fs from "fs/promises";
 //import cp from "child_process";
 
@@ -9,31 +8,37 @@ import {
   messageConfiguration,
   messageDomaines,
   messagePrincipale,
+  messageTokens,
 } from "./text/fr.js";
+import { listDomain } from "./domain.js";
+import input from "./utils/input.js";
 
 const history: number[] = [0];
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
 
-const input = (question: string) => rl.question(question);
 
 const menus = [
-  new Menu("principal", messagePrincipale)
+  new Menu(messagePrincipale)
     .addFun(() => history.unshift(1))
     .addFun(() => history.unshift(2))
     .addFun(() => console.log("wip"))
     .addFun(() => history.shift()),
-  new Menu("domain", messageDomaines),
-  new Menu("codes", messageCodes),
-  new Menu("config", messageConfiguration),
+  new Menu(messageDomaines)
+    .addFun(() => listDomain())
+    /*.addFun(() => addDomain())
+    .addFun(() => editDomain())
+    .addFun(() => deleteDomain())
+    .addFun(() => chooseDomain())
+    .addFun(() => changeMenuCodes(history))
+    .addFun(() => changeMenuTokens(history))*/
+    .addFun(() => history.shift()),
+  new Menu(messageCodes),
+  new Menu(messageTokens),
+  new Menu(messageConfiguration),
 ];
 
 while (history.length !== 0) {
   const menuNumber = history[0];
-  console.log(history)
   const menu = menus[menuNumber];
   const id = parseInt(await input(menu.text));
   if (isNaN(id)) continue;

@@ -1,3 +1,5 @@
+import { Domaines } from "../utils/db.js";
+
 const messagePrincipale = `
 Que veux tu faire ?
 1 - Domaines...
@@ -8,10 +10,9 @@ Que veux tu faire ?
 
 const messageTokens = `
 Que veux tu faire avec les Tokens ?
-1 - Lister mes Tokens
-2 - Créer un Token
-3 - Vérifier un Token
-4 - Supprimer un Token
+1 - Créer un Token
+2 - Vérifier le Token
+3 - Supprimer le Token
 9 - Retour...
 `;
 
@@ -19,7 +20,7 @@ const messageCodes = `
 Que veux tu faire avec les Codes ?
 1 - Lister les Codes
 2 - Créer un code
-4 - Supprimer un code
+3 - Supprimer un code
 9 - Retour...
 `;
 
@@ -30,6 +31,8 @@ Que veux tu faire avec tes Domaines ?
 3 - Modifier un domaine
 4 - Supprimer un domaine
 5 - Choisir un domaine...
+6 - Codes...
+7 - Tokens...
 9 - Retour...
 `;
 
@@ -45,6 +48,18 @@ Que veux tu configurer ?
 9 - Retour...
 `;
 
+const messageDomain = (domain: Domaines) => `
+- URL: ${domain.url}
+- Token: ${domain.token}
+- SSH:
+  - Username: ${domain.ssh.username}
+  - Mdp: ${domain.ssh.password}
+  - Port: ${domain.ssh.port}
+  - Domain: ${domain.ssh.domain}
+`
+
+const noDomain = "Pas de domaine"
+
 export {
   messageCodes,
   messageConfiguration,
@@ -53,4 +68,6 @@ export {
   messageTokens,
 
   choixDomaine,
+  messageDomain,
+  noDomain
 };

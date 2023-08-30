@@ -14,7 +14,7 @@ interface Ssh {
 }
 
 interface Domaines {
-    port: number,
+    url: string
     token: string,
     ssh: Ssh
 }
@@ -25,12 +25,15 @@ interface Data {
 }
 
 let data: Data  = {pids: {}, domains: []};
+
+
+
 async function write(newData: Data): Promise<void>{
-    await fs.writeFile(`./data.json`, JSON.stringify(newData, null, 2))
+    await fs.writeFile(new URL("../db/data.json", import.meta.url), JSON.stringify(newData, null, 2))
 }
 
 async function read(): Promise<void> {
-    data = JSON.parse((await fs.readFile(`./data.json`)).toString());
+    data = JSON.parse((await fs.readFile(new URL("../db/data.json", import.meta.url))).toString());
 }
 
 read();
@@ -38,5 +41,7 @@ read();
 export {
     data,
     read,
-    write
+    write,
+
+    Domaines
 }
