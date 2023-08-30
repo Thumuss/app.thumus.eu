@@ -5,7 +5,7 @@
   "main": "build/index.js",
   "scripts": {
     "start": "pnpm run build && node .",
-    "build": "pnpm run test && node tools/setup.js && tsc -b",
+    "build": "pnpm run test && node tools/setup.cjs && tsc -b",
     "test": "pnpm run lint",
     "lint": "eslint src/**/*",
     "lint:fix": "eslint src/**/* --fix "
@@ -17,7 +17,7 @@
     "dotenv": "^16.3.1",
     "zod": "^3.22.2"
   },
-  "type": "commonjs",
+  "type": "module",
   "devDependencies": {
     "@types/node": "^20.5.6",
     "@typescript-eslint/eslint-plugin": "^6.4.1",

@@ -1,10 +1,8 @@
 const messagePrincipale = `
 Que veux tu faire ?
-1 - Tokens...
-2 - Codes...
-3 - Domaines...
-4 - Configuration...
-5 - Aide
+1 - Domaines...
+2 - Configuration...
+3 - Aide
 9 - Quitter
 `;
 
@@ -27,11 +25,17 @@ Que veux tu faire avec les Codes ?
 
 const messageDomaines = `
 Que veux tu faire avec tes Domaines ?
-1 - Lister mes Domaines
-2 - Ajouter un Domain
-3 - Modifier un Domain
-4 - Supprimer un Domain
+1 - Lister mes domaines
+2 - Ajouter un domaine
+3 - Modifier un domaine
+4 - Supprimer un domaine
+5 - Choisir un domaine...
 9 - Retour...
+`;
+
+const choixDomaine = (domaines: string[]) => `
+Quel domaine veux tu choisir ?
+${domaines.map((a, i) => `${i} - "${a}"`).join("\n")}
 `;
 
 const messageConfiguration = `
@@ -47,4 +51,6 @@ export {
   messageDomaines,
   messagePrincipale,
   messageTokens,
+
+  choixDomaine,
 };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
 const join = (p) => path.join(__dirname, p);
 require("dotenv").config({ path: join("../.build.env") });

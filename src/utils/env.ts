@@ -3,6 +3,8 @@ import z from "zod";
 
 const port = z.number().int().nonnegative().lte(65535);
 
+//TODO: Change env
+
 const zobj = z
   .object({
     cert: z.string().min(1).optional(),
@@ -25,7 +27,7 @@ const zobj = z
         message:
           "If you use https, you need to set cert and key, two path to your cert.pem and key.pem ",
       });
-  })
+  });
 
 function parseEnv() {
   const keys = Object.keys(zobj);
@@ -36,20 +38,19 @@ function parseEnv() {
         return undefined;
       }
       if (obj === "true" || obj === "false") {
-        return { [a]: (obj === "true") };
+        return { [a]: obj === "true" };
       } else if (!isNaN(parseInt(obj))) {
         return { [a]: parseInt(obj) };
       }
-      return {[a]: obj}
-      
+      return { [a]: obj };
     })
-    .filter(a => typeof a !== "undefined")
+    .filter((a) => typeof a !== "undefined")
     .reduce((a, b) => ({ ...a, ...b }), {});
 }
 
 const parsed = zobj.safeParse(parseEnv());
 if (!parsed.success) {
-  throw Error(parsed.error.errors.join("\n"))
+  throw Error(parsed.error.errors.join("\n"));
 }
 
 export default parsed.data;
