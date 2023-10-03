@@ -3,3 +3,4 @@ data.json
 node_modules/
 archives/
 build/
+*bun*

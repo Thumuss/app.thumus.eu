@@ -1,2 +1,0 @@
-//TODO: obvious
-export default {}

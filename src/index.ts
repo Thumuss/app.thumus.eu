@@ -1,50 +1,68 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-//import fs from "fs/promises";
-//import cp from "child_process";
-import TUI from "./TUI.js"
 import Menu from "./utils/menu.js";
-//import env from "./utils/env";
+import { language } from "./text/lang.js";
 import {
-  messageCodes,
-  messageConfiguration,
-  messageDomaines,
-  messagePrincipale,
-  messageTokens,
-} from "./text/fr.js";
-import { addDomain, listDomain } from "./domain.js";
-import input from "./utils/input.js";
+  addDomain,
+  chooseDomain,
+  deleteDomain,
+  editDomain,
+  listDomain,
+} from "./menus/domain.js";
+import { selector } from "./utils/input.js";
+import { getChoosen, reinit } from "./utils/db.js";
+import { createCode, deleteCode, listCodes } from "./menus/code.js";
+import { createToken, deleteToken, verifyToken } from "./menus/token.ts";
+import { ERROR } from "./text/logger.ts";
 
 const history: number[] = [0];
 
-
+function changeMenu(id: number): void {
+  if (!getChoosen()) return ERROR(language.needChooseDomain);
+  history.unshift(id);
+}
 
 const menus = [
-  new Menu(messagePrincipale)
+  new Menu(language.messagePrincipale)
     .addFun(() => history.unshift(1))
-    .addFun(() => history.unshift(2))
+    .addFun(() => history.unshift(4))
     .addFun(() => console.log("wip"))
     .addFun(() => history.shift()),
-  new Menu(messageDomaines)
+  new Menu(language.messageDomaines)
     .addFun(() => listDomain())
-    .addFun(() => addDomain())/*
+    .addFun(() => addDomain())
     .addFun(() => editDomain())
     .addFun(() => deleteDomain())
     .addFun(() => chooseDomain())
-    .addFun(() => changeMenuCodes(history))
-    .addFun(() => changeMenuTokens(history))*/
+    .addFun(() => changeMenu(2))
+    .addFun(() => changeMenu(3))
     .addFun(() => history.shift()),
-  new Menu(messageCodes),
-  new Menu(messageTokens),
-  new Menu(messageConfiguration),
+  new Menu(language.messageCodes)
+    .addFun(() => listCodes())
+    .addFun(() => createCode())
+    .addFun(() => deleteCode())
+    .addFun(() => history.shift()),
+  new Menu(language.messageTokens)
+    .addFun(() => createToken())
+    .addFun(() => verifyToken())
+    .addFun(() => deleteToken())
+    .addFun(() => history.shift()),
+  new Menu(language.messageConfiguration)
+    .addFun(() => killAllProcess())
+    .addFun(() => reinit())
+    .addFun(() => history.shift()),
 ];
 
-/*
-while (history.length !== 0) {
-  const menuNumber = history[0];
-  const menu = menus[menuNumber];
-  const id = parseInt(await input(menu.text));
-  if (isNaN(id)) continue;
-  await menu.play(id - 1);
-}*/
+function killAllProcess() {} // jsp
 
-TUI()
+(async function main() {
+  while (history.length !== 0) {
+    const menuNumber = history[0];
+    const menu = menus[menuNumber];
+    const [message, ...msg] = menu.text.split("\n");
+    const id = await selector(message, msg);
+    try {
+      await menu.play(id);
+    } catch (e) {
+      ERROR(e as string);
+    }
+  }
+})();

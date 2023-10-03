@@ -11,14 +11,19 @@ const sourcePath = (...args) => join("../source", ...args);
 
 const pathEnv = dirPath(copyEnv ? "./.env" : "./source/example.env");
 
-console.log("* Creating data.json...");
-fs.mkdirSync(join("../build/db"), { recursive: true });
-fs.writeFileSync(
-  buildPath("./db/data.json"),
-  JSON.stringify({ pids: {}, domains: [] }, null, 2)
-);
-console.log("* Wrinting .env files...");
-fs.copyFileSync(pathEnv, buildPath("./.env"));
+if (process.env.ovewriteData === "true") {
+  console.log("* Creating data.json...");
+  fs.mkdirSync(join("../build/db"), { recursive: true });
+  fs.writeFileSync(
+    buildPath("./db/data.json"),
+    JSON.stringify({ pids: {}, domains: [], lang: "en" }, null, 2)
+  );
+}
+
+if (process.env.ovewriteEnv === "true") {
+  console.log("* Wrinting .env files...");
+  fs.copyFileSync(pathEnv, buildPath("./.env"));
+}
 
 if (process.env.NODE_ENV === "production") {
   const newPackageJSON = JSON.parse(

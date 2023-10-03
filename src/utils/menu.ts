@@ -1,4 +1,5 @@
-type menuFunction = (() => void) | (() => Promise<void>);
+import { menuFunction } from "../types.js";
+
 class Menu {
   functions: menuFunction[];
   text: string;
@@ -13,7 +14,7 @@ class Menu {
   }
 
   async play(i: number): Promise<void> {
-    await this.functions[i]();
+    return this.functions[i]();
   }
 }
 
