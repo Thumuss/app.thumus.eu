@@ -36,9 +36,24 @@ const ask = async <T extends z.ZodTypeAny>(
       return schema.parse(anwser.length === 0 ? undefined : anwser);
     } catch (err) {
       //TODO: better handling obviously
-      console.log(err);
+      const errors = (err as {errors: ErrorZod[]}).errors
+      for(const error of errors) {
+        parseError(error);
+      }
     }
   }
 };
+
+interface ErrorZod {
+  code: string,
+  expected: string,
+  received: string,
+  path: string[],
+  message: string
+}
+
+function parseError(error: ErrorZod) {
+  console.log(error); // TODO: use lang too
+}
 
 export { input, selector, ask };

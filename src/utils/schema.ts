@@ -17,8 +17,8 @@ const schema = {
     ),
   portLocal: (): Promise<number> =>
     ask(
-      addDomain.portLocal("22"),
-      z.coerce.number().int().nonnegative().lte(65535).default(22)
+      addDomain.portLocal("0 (for null)"),
+      z.coerce.number().int().nonnegative().lte(65535).default(0)
     ),
   portRemote: (): Promise<number> =>
     ask(

@@ -37,7 +37,7 @@ async function createCode() {
     remote: portRemote,
   };
   const body = await get("/code/create", {
-    id,
+    code: id,
     port: portRemote,
   });
   if (body.type === "CodeCreated") {
@@ -46,9 +46,12 @@ async function createCode() {
     console.log(body);
     ERROR(language.errorCodeAdded);
   }
-  const proc = exec(sshCommand(choosen.ssh, code));
-  proc.unref();
-  if (proc.pid) data.pids[body.code] = proc.pid.toString();
+  console.log(portLocal)
+  if(portLocal && portLocal != 0 && portLocal != null && portLocal != undefined) {
+    const proc = exec(sshCommand(choosen.ssh, code));
+    proc.unref();
+    if (proc.pid) data.pids[body.code] = proc.pid.toString();
+  }
   await write(data);
 }
 async function deleteCode() {
